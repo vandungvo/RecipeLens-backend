@@ -8,8 +8,6 @@ async function bootstrap() {
     .setTitle('Recipelens REST API')
     .setDescription('The NestJS API description')
     .setVersion('1.0')
-    .addTag('Users')
-    .addTag('Recipes')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
