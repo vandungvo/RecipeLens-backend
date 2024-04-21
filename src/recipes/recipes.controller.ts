@@ -5,6 +5,7 @@ import {
   Query,
   NotFoundException,
 } from '@nestjs/common';
+import { filterRecipeDto } from './dto/filter-recipe.dto';
 import { RecipesService } from './recipes.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -13,12 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class RecipesController {
   constructor(private recipesService: RecipesService) {}
 
-  @Get()
-  async getAll() {
-    return await this.recipesService.findAll();
-  }
-
-  @Get('/getbyId/:id')
+  @Get('/:id')
   async findRecipeById(@Param('id') id: number) {
     const recipe = await this.recipesService.findRecipeById(id);
 
@@ -26,11 +22,15 @@ export class RecipesController {
     return recipe;
   }
 
-  @Get('/getbyCategory')
-  async findRecipeByCategory(@Query('category') category: string) {
-    const recipe = await this.recipesService.findRecipeByCategory(category);
+  @Get('/')
+  async getRecipes(@Query() filterDto: filterRecipeDto) {
+    if (!filterDto.text && !filterDto.category) {
+      // console.log('No recipe category')
+      return await this.recipesService.findAll();
+    }
 
-    if (!recipe) throw new NotFoundException('Recipe Category does not exist!');
-    return recipe;
+    const filteredRecipes =
+      await this.recipesService.getFilteredRecipes(filterDto);
+    return filteredRecipes;
   }
 }

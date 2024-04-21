@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { filterRecipeDto } from './dto/filter-recipe.dto';
 import { Recipe, RecipeDocument } from './schemas/recipes.schema';
 
 @Injectable()
@@ -42,5 +43,33 @@ export class RecipesService {
     }
   }
 
-  async findRecipeByKeywords(keywords: string[]) {}
+  async getFilteredRecipes({ text, category, limit = 30 }: filterRecipeDto) {
+    const categoryList = category?.split(',');
+    // console.log(category)
+    const findProp: any = text
+      ? {
+          $and: [
+            categoryList?.length > 0
+              ? {
+                  RecipeCategory: { $in: categoryList },
+                }
+              : {},
+            {
+              $text: { $search: text },
+            },
+          ],
+        }
+      : {
+          $and: [
+            categoryList?.length > 0
+              ? {
+                  RecipeCategory: { $in: categoryList },
+                }
+              : {},
+          ],
+        };
+
+    const recipes = await this.recipemodel.find(findProp).limit(limit);
+    return recipes;
+  }
 }
