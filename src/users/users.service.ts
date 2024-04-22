@@ -23,4 +23,14 @@ export class UserService {
   async findOne(email: string) {
     return this.userModel.findOne({ email });
   }
+
+  async findOneWithoutPassword(email: string): Promise<any> {
+    const user = await this.userModel.findOne({ email });
+    if (user) {
+      const { password, ...userWithoutPassword } = user.toObject();
+      password;
+      return userWithoutPassword;
+    }
+    return null;
+  }
 }
