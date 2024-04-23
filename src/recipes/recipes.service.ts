@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { filterRecipeDto } from './dto/filter-recipe.dto';
+import { updateRecipeDto } from './dto/update-recipe.dto';
 import { Recipe, RecipeDocument } from './schemas/recipes.schema';
 
 @Injectable()
@@ -13,8 +14,9 @@ export class RecipesService {
   async findAll(): Promise<Recipe[]> {
     return await this.recipemodel.find().exec();
   }
-  async findOne(id: string): Promise<Recipe> {
-    return await this.recipemodel.findById(id).exec();
+
+  fetchbyId(id: string) {
+    return this.recipemodel.findById(id);
   }
 
   async findRecipeById(recipeId: number): Promise<Recipe | null> {
@@ -24,7 +26,6 @@ export class RecipesService {
         .exec();
       return recipe;
     } catch (error) {
-      // Handle any potential errors (e.g., database connection issues, etc.)
       console.error('Error fetching recipe by ID:', error);
       return null;
     }
@@ -37,7 +38,6 @@ export class RecipesService {
         .exec();
       return recipes || null;
     } catch (error) {
-      // Handle any potential errors (e.g., database connection issues, etc.)
       console.error('Error fetching recipe by ID:', error);
       return null;
     }
@@ -45,7 +45,6 @@ export class RecipesService {
 
   async getFilteredRecipes({ text, category, limit = 30 }: filterRecipeDto) {
     const categoryList = category?.split(',');
-    // console.log(category)
     const findProp: any = text
       ? {
           $and: [
@@ -71,5 +70,31 @@ export class RecipesService {
 
     const recipes = await this.recipemodel.find(findProp).limit(limit);
     return recipes;
+  }
+
+  async updateRecipe(
+    id: string,
+    updateRecipeDto: updateRecipeDto,
+  ): Promise<Recipe> {
+    const recipe = await this.recipemodel.findByIdAndUpdate(
+      id,
+      updateRecipeDto,
+      { new: true },
+    );
+
+    return recipe;
+  }
+
+  async updateRecipeImage(id: string, imgsrc: string): Promise<Recipe> {
+    try {
+      const recipe = await this.recipemodel.findById(id);
+      recipe.Images = imgsrc;
+      const updatedRecipe = await recipe.save();
+
+      return updatedRecipe;
+    } catch (error) {
+      console.error('Error updating recipe image:', error);
+      throw error;
+    }
   }
 }

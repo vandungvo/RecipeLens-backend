@@ -1,7 +1,5 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import internal from 'stream';
 
 export type RecipeDocument = Recipe & Document;
 
