@@ -1,13 +1,7 @@
-import {
-  Controller,
-  Param,
-  Get,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Param, Get, Post, Body } from '@nestjs/common';
 import { UserService } from './users.service';
-import mongoose from 'mongoose';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateFavoriteDto } from './dto/UpdateFavorite.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -20,15 +14,15 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-    const user = await this.userService.fetchUserByID(id);
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-    return user;
+  findOne(@Param('id') id: string) {
+    return this.userService.fetchUserByID(id);
+  }
+
+  @Post(':id/favorites')
+  addFavorite(@Body() updateFavoriteDto: UpdateFavoriteDto) {
+    return this.userService.addFavorite(
+      updateFavoriteDto.id,
+      updateFavoriteDto.favorite,
+    );
   }
 }

@@ -1,5 +1,4 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Recipe } from '../../recipes/schemas/recipes.schema';
 import mongoose from 'mongoose';
 
 @Schema({ versionKey: false })
@@ -15,8 +14,8 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }] })
-  favorite?: Recipe[];
+  @Prop({ required: false })
+  favorite?: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

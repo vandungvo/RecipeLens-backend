@@ -22,7 +22,7 @@ export class AuthService {
     const payload = { sub: user._id, name: user.name, email: user.email };
     return {
       access_token: await this.jwtService.signAsync(payload),
-      user: await this.usersService.findOneWithoutPassword(email),
+      user: await this.usersService.findOne(email),
     };
   }
 
@@ -49,7 +49,7 @@ export class AuthService {
     };
     return {
       access_token: await this.jwtService.signAsync(payload),
-      user: await this.usersService.findOneWithoutPassword(email),
+      user: await this.usersService.findOne(email),
     };
   }
 }
