@@ -36,14 +36,12 @@ export class UserService {
     return retUser;
   }
 
-  async findOne(email: string): Promise<any> {
+  async findOne(email: string) {
     const user = await this.userModel.findOne({ email });
-    if (user) {
-      const { password, ...retUser } = user.toObject();
-      password;
-      return retUser;
+    if (!user) {
+      throw new HttpException('Email not found', HttpStatus.NOT_FOUND);
     }
-    return null;
+    return user;
   }
 
   async addFavorite(id: string, favorites: string[]) {
