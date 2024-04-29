@@ -11,6 +11,9 @@ export class AuthService {
   ) {}
 
   async signIn(email: string, pass: string) {
+    if (!email || !pass) {
+      throw new HttpException('Missing parameter', HttpStatus.BAD_REQUEST);
+    }
     const user = await this.usersService.findOne(email);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
@@ -28,13 +31,16 @@ export class AuthService {
     };
   }
 
-  async signUp(name: string, email: string, password: string) {
+  async signUp(name: string, email: string, pass: string) {
+    if (!name || !email || !pass) {
+      throw new HttpException('Missing parameter', HttpStatus.BAD_REQUEST);
+    }
     const user = await this.usersService.findOne(email);
     if (user) {
       throw new HttpException('Email already exists', HttpStatus.BAD_GATEWAY);
     }
     const saltOrRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+    const hashedPassword = await bcrypt.hash(pass, saltOrRounds);
     const newUser = await this.usersService.create({
       name,
       email,
@@ -43,15 +49,16 @@ export class AuthService {
     if (!newUser) {
       throw new HttpException('Error creating user', HttpStatus.BAD_GATEWAY);
     }
-    const createdUser = await this.usersService.findOne(email);
     const payload = {
-      sub: createdUser._id,
-      name: createdUser.name,
-      email: createdUser.email,
+      sub: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
     };
+    const { password, ...retUser } = newUser.toObject();
+    password;
     return {
       access_token: await this.jwtService.signAsync(payload),
-      user: await this.usersService.findOne(email),
+      user: retUser,
     };
   }
 }

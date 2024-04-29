@@ -37,11 +37,7 @@ export class UserService {
   }
 
   async findOne(email: string) {
-    const user = await this.userModel.findOne({ email });
-    if (!user) {
-      throw new HttpException('Email not found', HttpStatus.NOT_FOUND);
-    }
-    return user;
+    return await this.userModel.findOne({ email });
   }
 
   async addFavorite(id: string, favorites: string[]) {
