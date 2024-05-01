@@ -40,17 +40,13 @@ export class UserService {
     return await this.userModel.findOne({ email });
   }
 
-  async addFavorite(id: string, favorites: string[]) {
+  async addFavorite(id: string, favorites: number[]) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if (!isValid) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     const user = await this.userModel.findById(id);
     for (let i = 0; i < favorites.length; i++) {
-      const isValid = mongoose.Types.ObjectId.isValid(favorites[i]);
-      if (!isValid) {
-        throw new HttpException('Favorite not found', HttpStatus.NOT_FOUND);
-      }
       user.favorite.push(favorites[i]);
     }
     user.favorite = favorites;

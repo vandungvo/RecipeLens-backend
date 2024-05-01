@@ -7,5 +7,5 @@ export class UpdateFavoriteDto {
   id: string;
   @IsNotEmpty()
   @ApiProperty()
-  favorite: string[];
+  favorite: number[];
 }

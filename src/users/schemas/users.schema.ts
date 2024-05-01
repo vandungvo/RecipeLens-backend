@@ -15,7 +15,7 @@ export class User {
   password: string;
 
   @Prop({ required: false })
-  favorite?: string[];
+  favorite?: number[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
