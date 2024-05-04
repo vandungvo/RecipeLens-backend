@@ -49,7 +49,6 @@ export class UserService {
     for (let i = 0; i < favorites.length; i++) {
       user.favorite.push(favorites[i]);
     }
-    user.favorite = favorites;
     return user.save();
   }
 }
