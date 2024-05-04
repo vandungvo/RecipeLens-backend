@@ -47,6 +47,12 @@ export class UserService {
     }
     const user = await this.userModel.findById(id);
     for (let i = 0; i < favorites.length; i++) {
+      if (user.favorite.includes(favorites[i])) {
+        throw new HttpException(
+          'Favorite already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       user.favorite.push(favorites[i]);
     }
     return user.save();
