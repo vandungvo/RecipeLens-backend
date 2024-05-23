@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class UpdateFavoriteDto {
+export class ModifyFavoriteDto {
   @IsNotEmpty()
   @ApiProperty()
   id: string;
