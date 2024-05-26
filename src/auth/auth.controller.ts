@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/SignIn.dto';
 import { SignUpDto } from './dto/SignUp.dto';
+import { SignInWithGoogleDto } from './dto/SignInWithGoogle.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Authentication')
@@ -20,6 +21,14 @@ export class AuthController {
       signUpDto.name,
       signUpDto.email,
       signUpDto.password,
+    );
+  }
+
+  @Post('login-google')
+  signInWithGoogle(@Body() signInWithGoogleDto: SignInWithGoogleDto) {
+    return this.authService.signInWithGoogle(
+      signInWithGoogleDto.name,
+      signInWithGoogleDto.email,
     );
   }
 }

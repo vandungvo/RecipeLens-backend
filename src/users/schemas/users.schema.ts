@@ -6,13 +6,13 @@ export class User {
   _id: mongoose.Types.ObjectId;
 
   @Prop({ required: false })
-  name?: string;
+  name: string;
 
   @Prop({ unique: true, required: true })
   email: string;
 
-  @Prop({ required: true })
-  password: string;
+  @Prop({ required: false })
+  password?: string;
 
   @Prop({ required: false })
   favorite?: number[];
