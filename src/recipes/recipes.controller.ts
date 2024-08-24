@@ -12,9 +12,10 @@ import mongoose from 'mongoose';
 import { filterRecipeDto } from './dto/filter-recipe.dto';
 import { updateRecipeDto } from './dto/update-recipe.dto';
 import { RecipesService } from './recipes.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Recipes')
+@ApiBearerAuth()
 @Controller('recipes')
 export class RecipesController {
   constructor(private recipesService: RecipesService) {}

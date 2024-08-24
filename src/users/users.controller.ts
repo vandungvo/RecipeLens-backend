@@ -1,9 +1,10 @@
 import { Controller, Param, Get, Post, Body } from '@nestjs/common';
 import { UserService } from './users.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ModifyFavoriteDto } from './dto/ModifyFavorite.dto';
 
 @ApiTags('Users')
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UserService) {}
