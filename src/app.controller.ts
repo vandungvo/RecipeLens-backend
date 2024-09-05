@@ -10,7 +10,7 @@ export class AppController {
   @Get('')
   getHello(@Res() res: Response): void {
     const filePath = join(__dirname, '..', 'public', 'index.html');
-    res.sendFile(filePath); // Send the static HTML file
+    res.sendFile(filePath);
   }
 
   @Get('testapi')

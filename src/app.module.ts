@@ -6,7 +6,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RecipesModule } from './recipes/recipes.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { RecipesController } from './recipes/recipes.controller';
 import { UsersController } from './users/users.controller';
 
 @Module({
@@ -23,6 +22,6 @@ import { UsersController } from './users/users.controller';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(logger).forRoutes(RecipesController, UsersController);
+    consumer.apply(logger).forRoutes(UsersController);
   }
 }
