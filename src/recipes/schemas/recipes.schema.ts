@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-
-export type RecipeDocument = Recipe & Document;
+import mongoose from 'mongoose';
 
 @Schema({ timestamps: true })
-export class Recipe extends Document {
+export class Recipe {
   @Prop()
-  _id?: string;
+  _id?: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
   RecipeId: number;

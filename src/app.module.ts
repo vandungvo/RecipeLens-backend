@@ -7,13 +7,20 @@ import { RecipesModule } from './recipes/recipes.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersController } from './users/users.controller';
+import { Recipesv1Module } from './recipes/recipesv1.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://recipeData:simplepassword123@cluster0.bzz80tz.mongodb.net/RecipeLensDB',
+      'mongodb+srv://recipeData:simplepassword123@cluster0.bzz80tz.mongodb.net/RecipeLensDB', 
+      {connectionName: 'RecipeLensDB'}
+    ),
+    MongooseModule.forRoot(
+      'mongodb+srv://recipeData:simplepassword123@cluster0.bzz80tz.mongodb.net/RecipeLens', 
+      {connectionName: 'RecipeLens'}
     ),
     RecipesModule,
+    Recipesv1Module,
     UsersModule,
     AuthModule,
   ],

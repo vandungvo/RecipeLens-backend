@@ -3,12 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { filterRecipeDto } from './dto/filter-recipe.dto';
 import { updateRecipeDto } from './dto/update-recipe.dto';
-import { Recipe, RecipeDocument } from './schemas/recipes.schema';
+import { Recipe } from './schemas/recipes.schema';
 
 @Injectable()
 export class RecipesService {
   constructor(
-    @InjectModel('recipes') private readonly recipemodel: Model<RecipeDocument>,
+    @InjectModel(Recipe.name, 'RecipeLensDB') private recipemodel: Model<Recipe>,
   ) {}
 
   async findAll(): Promise<Recipe[]> {
