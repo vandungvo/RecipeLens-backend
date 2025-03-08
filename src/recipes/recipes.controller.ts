@@ -32,7 +32,7 @@ export class RecipesController {
 
   @Get('/')
   async getRecipes(@Query() filterDto: filterRecipeDto) {
-    if (!filterDto.text && !filterDto.category && !filterDto.category) {
+    if (!filterDto.text && !filterDto.category && !filterDto.limit) {
       return await this.recipesService.findAll();
     }
 

@@ -12,7 +12,7 @@ export class Recipesv1Controller {
 
   @Get('/')
   async getRecipes(@Query() filterDto: filterRecipeDto) {
-    if (!filterDto.text && !filterDto.category && !filterDto.category) {
+    if (!filterDto.text && !filterDto.category && !filterDto.limit) {
       return await this.recipesv1Service.findAll();
     }
 
