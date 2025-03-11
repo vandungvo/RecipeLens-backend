@@ -1,12 +1,13 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-@Schema({ versionKey: false, collection: 'recipes_v1.2' })
+@Schema({ timestamps: true, collection: 'recipes_v1.2' })
 export class Recipesv2 {
-  _id: mongoose.Types.ObjectId;
+  @Prop()
+  _id?: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
-  id: string;
+  RecipeId: number;
 
   @Prop({ required: true })
   title: string;

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { filterRecipeDto } from './dto/filter-recipe.dto';
 import { updateRecipeDto } from './dto/update-recipe.dto';
 import { Recipesv2 } from './schemas/recipesv2.schema';
@@ -16,7 +16,17 @@ export class Recipesv2Service {
   }
 
   fetchbyId(id: string) {
-    return this.recipev2model.findById(id);
+    return this.recipev2model.findOne({ _id: new mongoose.Types.ObjectId(id) });
+  }
+
+  async findRecipeById(recipeId: number): Promise<Recipesv2 | null> {
+    try {
+      const recipe = await this.recipev2model.findOne({ RecipeId: recipeId });
+      return recipe;
+    } catch (error) {
+      console.error('Error fetching recipe by ID:', error);
+      return null;
+    }
   }
 
   async getFilteredRecipes({ text, category, limit = 30 }: filterRecipeDto) {

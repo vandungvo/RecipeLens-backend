@@ -8,7 +8,7 @@ import { Recipesv1 } from './schemas/recipesv1.schema';
 @Injectable()
 export class Recipesv1Service {
   constructor(
-    @InjectModel(Recipesv1.name, 'RecipeLens') private recipev1model: Model<Recipesv1>,
+    @InjectModel(Recipesv1.name, 'RecipeLensDB') private recipev1model: Model<Recipesv1>,
   ) {}
 
   async findAll(): Promise<Recipesv1[]> {

@@ -17,10 +17,6 @@ import { Recipesv2Module } from './recipes/recipesv2.module';
       {connectionName: 'RecipeLensDB'}
     ),
     MongooseModule.forRoot(
-      'mongodb+srv://recipeData:simplepassword123@cluster0.bzz80tz.mongodb.net/RecipeLens', 
-      {connectionName: 'RecipeLens'}
-    ),
-    MongooseModule.forRoot(
       'mongodb+srv://recipeData:simplepassword123@cluster0.bzz80tz.mongodb.net/Recipes_DB', 
       {connectionName: 'Recipes_DB'}
     ),

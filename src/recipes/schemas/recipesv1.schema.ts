@@ -1,8 +1,9 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-@Schema({ versionKey: false })
+@Schema({ versionKey: false, collection: 'recipesv1' })
 export class Recipesv1 {
+  @Prop()
   _id: mongoose.Types.ObjectId;
 
   @Prop({ required: true })

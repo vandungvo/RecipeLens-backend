@@ -8,7 +8,7 @@ import { Recipesv1, Recipev1Schema } from './schemas/recipesv1.schema';
   controllers: [Recipesv1Controller],
   providers: [Recipesv1Service],
   imports: [
-    MongooseModule.forFeature([{ name: Recipesv1.name, schema: Recipev1Schema }], 'RecipeLens'),
+    MongooseModule.forFeature([{ name: Recipesv1.name, schema: Recipev1Schema }], 'RecipeLensDB'),
   ],
 })
 export class Recipesv1Module {}

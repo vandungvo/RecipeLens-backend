@@ -20,18 +20,27 @@ export class Recipesv2Controller {
     return filteredRecipes;
   }
 
-  @Get('/:id')
-  async getRecipeById(@Param('id') id: string) {
+  @Get('/objectID/:_id')
+  async getRecipeById(@Param('_id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if (!isValid) {
-      console.log('invalid');
+      return 'ID is invalid';
     }
-    const user = await this.recipesv2Service.fetchbyId(id);
-    if (!user) {
-      console.log('Not found');
+    const recipe = await this.recipesv2Service.fetchbyId(id);
+    if (!recipe) {
+      return 'Not found';
     }
-    return user;
+    return recipe;
   }
+
+  @Get('/recipeID/:id')
+  async findRecipeById(@Param('id') id: number) {
+    const recipe = await this.recipesv2Service.findRecipeById(id);
+
+    if (!recipe) throw new NotFoundException('Recipe does not exist!');
+    return recipe;
+  }
+
 
   @Put('/:id')
   async updateRecipe(
