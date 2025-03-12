@@ -50,12 +50,12 @@ export class Recipesv2Service {
 
     const recipes = await this.recipev2model
       .find(findProp, {
-        cook_times: 1,
+        RecipeId: 1,
         title: 1,
         image_url: 1,
-        ingredient: 1,
+        cook_times: 1,
+        ingredients: 1,
         instruction: 1,
-        equipment: 1,
         yield: 1,
         serving_size: 1,
         recipe_key: 1,
