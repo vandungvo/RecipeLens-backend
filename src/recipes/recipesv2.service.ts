@@ -50,6 +50,7 @@ export class Recipesv2Service {
 
     const recipes = await this.recipev2model
       .find(findProp, {
+        _id: 1,
         RecipeId: 1,
         title: 1,
         image_url: 1,
@@ -61,6 +62,9 @@ export class Recipesv2Service {
         recipe_key: 1,
         categories: 1,
         nutrition: 1,
+        rating: 1,
+        author: 1,
+        description: 1,
       })
       .limit(limit);
   

@@ -1,7 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-@Schema({ timestamps: true, collection: 'recipes_v1.2' })
+@Schema({ timestamps: true, collection: 'recipes_v1.3' })
 export class Recipesv2 {
   @Prop()
   _id?: mongoose.Types.ObjectId;
@@ -38,6 +38,15 @@ export class Recipesv2 {
 
   @Prop({ type: Object })
   nutrition: string;
+
+  @Prop()
+  rating: number;
+
+  @Prop()
+  author: string;
+
+  @Prop()
+  description: string;
 }
 
 export const Recipev2Schema = SchemaFactory.createForClass(Recipesv2);
