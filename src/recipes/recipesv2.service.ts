@@ -29,7 +29,7 @@ export class Recipesv2Service {
     }
   }
 
-  async getFilteredRecipes({ text, category, limit = 30 }: filterRecipeDto) {
+  async getFilteredRecipes({ text, category, limit = 30, page = 1 }: filterRecipeDto) {
     const findProp: any = {};
   
     if (text) {
@@ -66,6 +66,7 @@ export class Recipesv2Service {
         author: 1,
         description: 1,
       })
+      .skip((page - 1) * limit)
       .limit(limit);
   
     return recipes;

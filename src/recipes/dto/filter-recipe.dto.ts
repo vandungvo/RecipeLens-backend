@@ -6,4 +6,6 @@ export class filterRecipeDto {
   category?: string;
   @ApiProperty({ required: false })
   limit?: number;
+  @ApiProperty({ required: false })
+  page?: number;
 }

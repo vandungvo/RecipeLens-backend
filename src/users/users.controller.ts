@@ -2,7 +2,9 @@ import { Controller, Param, Get, Post, Body } from '@nestjs/common';
 import { UserService } from './users.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ModifyFavoriteDto } from './dto/ModifyFavorite.dto';
+import { RateRecipeDto } from './dto/RateRecipe.dto';
 
+// Controllers 
 @ApiTags('Users')
 @ApiBearerAuth()
 @Controller('users')
@@ -33,5 +35,10 @@ export class UsersController {
       removeFavoriteDto.id,
       removeFavoriteDto.favorite,
     );
+  }
+
+  @Post(':id/ratings')
+  rateRecipe(@Body() rateRecipeDto: RateRecipeDto) {
+    return this.userService.addRecipeRating(rateRecipeDto);
   }
 }

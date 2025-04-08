@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../users/schemas/users.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import mongoose from 'mongoose';
+import { RateRecipeDto } from './dto/RateRecipe.dto';
 
 @Injectable()
 export class UserService {
@@ -73,5 +74,23 @@ export class UserService {
       );
     }
     return user.save();
+  }
+
+  async addRecipeRating(rateRecipeDto: RateRecipeDto) {
+    const { userId, recipeId, rating, comment, timestamp } = rateRecipeDto;
+
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    user.recipeRatings.push({
+      recipeId,
+      rating,
+      comment,
+      timestamp: timestamp || new Date(),
+    });
+
+    await user.save();
+
+    return user.recipeRatings
   }
 }
