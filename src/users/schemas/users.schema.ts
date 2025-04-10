@@ -11,6 +11,9 @@ class RecipeRating {
   @Prop({ type: String, required: false })
   comment?: string;
 
+  @Prop({ type: Number, required: false })
+  clickNumber?: number;
+
   @Prop({ type: Date, default: Date.now })
   timestamp: Date;
 }

@@ -77,17 +77,63 @@ export class UserService {
   }
 
   async addRecipeRating(rateRecipeDto: RateRecipeDto) {
-    const { userId, recipeId, rating, comment, timestamp } = rateRecipeDto;
-
+    const { userId, recipeId, rating, comment } = rateRecipeDto;
     const user = await this.userModel.findById(userId);
     if (!user) throw new NotFoundException('User not found');
 
-    user.recipeRatings.push({
-      recipeId,
-      rating,
-      comment,
-      timestamp: timestamp || new Date(),
-    });
+    const recipeRating = user.recipeRatings.find(
+      (rating) => rating.recipeId === recipeId,
+    );
+
+    if (recipeRating) {
+      recipeRating.rating = rating;
+      recipeRating.comment = comment;
+      recipeRating.clickNumber = recipeRating.clickNumber === null ? 0 : recipeRating.clickNumber;
+      recipeRating.timestamp = new Date();
+      user.markModified('recipeRatings');
+    } else {
+      user.recipeRatings.push({
+        recipeId,
+        rating,
+        comment,
+        clickNumber: 0,
+        timestamp: new Date(),
+      });
+    }
+
+    await user.save();
+
+    return user.recipeRatings;
+  }
+
+  async addRecipeClick(userId: string, recipeId: number) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const recipeRating = user.recipeRatings.find(
+      (rating) => rating.recipeId === recipeId,
+    );
+
+    if (recipeRating) {
+      if (recipeRating.clickNumber === undefined) {
+        recipeRating.clickNumber = 0;
+      }
+      if (recipeRating.clickNumber === null) {
+        recipeRating.clickNumber = 0;
+      } else {
+        recipeRating.clickNumber += 1;
+        recipeRating.timestamp = new Date();
+      }
+      user.markModified('recipeRatings');
+    } else {
+      user.recipeRatings.push({
+        recipeId,
+        rating: 0,
+        comment: null,
+        clickNumber: 1,
+        timestamp: new Date(),
+      });
+    }
 
     await user.save();
 

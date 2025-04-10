@@ -1,8 +1,9 @@
 import { Controller, Param, Get, Post, Body } from '@nestjs/common';
 import { UserService } from './users.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { ModifyFavoriteDto } from './dto/ModifyFavorite.dto';
 import { RateRecipeDto } from './dto/RateRecipe.dto';
+import { AddClickDto } from './dto/AddClick.dto';
 
 // Controllers 
 @ApiTags('Users')
@@ -40,5 +41,11 @@ export class UsersController {
   @Post(':id/ratings')
   rateRecipe(@Body() rateRecipeDto: RateRecipeDto) {
     return this.userService.addRecipeRating(rateRecipeDto);
+  }
+
+  @Post(':id/clickNumber')
+  addClickNumber(@Body() addClickDto: AddClickDto) {
+    const { userId, recipeId } = addClickDto;
+    return this.userService.addRecipeClick(userId, recipeId);
   }
 }
