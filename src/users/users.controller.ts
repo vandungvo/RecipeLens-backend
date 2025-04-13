@@ -48,4 +48,14 @@ export class UsersController {
     const { userId, recipeId } = addClickDto;
     return this.userService.addRecipeClick(userId, recipeId);
   }
+
+  @Get(':id/recipeRating/:recipeId')
+  getRecipeRatings(
+    @Param('id') userId: string,
+    @Param('recipeId') recipeId: number
+  ) {
+    const numericRecipeId = Number(recipeId);
+    return this.userService.getRecipeRatings(userId, numericRecipeId);
+  }
+  
 }

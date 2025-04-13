@@ -139,4 +139,19 @@ export class UserService {
 
     return user.recipeRatings
   }
+
+  async getRecipeRatings(userId: string, recipeId: number) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const recipeRating = user.recipeRatings.find(
+      (rating) => rating.recipeId === recipeId,
+    );
+
+    if (recipeRating) {
+      return recipeRating;
+    } else {
+      throw new NotFoundException('Recipe rating not found');
+    }
+  }
 }
