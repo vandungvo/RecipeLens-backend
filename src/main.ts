@@ -6,6 +6,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
+  
   const config = new DocumentBuilder()
     .setTitle('Recipelens REST API')
     .setDescription('The NestJS API description')
