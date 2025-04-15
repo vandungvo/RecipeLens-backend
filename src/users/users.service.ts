@@ -128,8 +128,8 @@ export class UserService {
     } else {
       user.recipeRatings.push({
         recipeId,
-        rating: 0,
-        comment: null,
+        rating: undefined,
+        comment: undefined,
         clickNumber: 1,
         timestamp: new Date(),
       });
