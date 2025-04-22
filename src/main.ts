@@ -8,8 +8,18 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: true,
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Origin',
+      'Accept',
+      'X-Requested-With',
+    ],
   });
   
   const config = new DocumentBuilder()
